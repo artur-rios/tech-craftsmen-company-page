@@ -9,3 +9,7 @@ Task 8: complete (bd9bdda..fe271cd, review clean)
 Task 9: complete (fe271cd..e0e27cf, review clean)
 Task 10: complete (e0e27cf..d84be9b, review clean)
 Task 11: complete (d84be9b..c519f46, review clean)
+Task 12: complete (c519f46..f4083c6, review clean)
+Task 13: complete (f4083c6..e6bdeda, review clean)
+Post-review fixes: complete — removed next-themes, extracted icon-map
+Whole-branch review: Ready to merge ✅
