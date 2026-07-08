@@ -1,11 +1,6 @@
-import { Code2, Cloud, GitFork, CheckCircle2, type LucideIcon } from "lucide-react";
+import { Code2, CheckCircle2 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
-
-const iconMap: Record<string, LucideIcon> = {
-  Code2,
-  Cloud,
-  GitFork,
-};
+import { SERVICE_ICON_MAP } from "@/lib/icon-map";
 
 interface ServiceDetailProps {
   id: string;
@@ -24,7 +19,7 @@ export function ServiceDetail({
   details,
   technologies,
 }: ServiceDetailProps) {
-  const Icon = iconMap[icon] || Code2;
+  const Icon = SERVICE_ICON_MAP[icon] || Code2;
 
   return (
     <section id={id} className="scroll-mt-24">

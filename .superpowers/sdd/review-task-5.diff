@@ -1,0 +1,174 @@
+# Review package: 550be53034c6e3f6029d7c163d44821eb69388e7..HEAD
+
+## Commits
+cc376c2 feat: add static data files for company, navigation, services, testimonials, and team
+
+## Files changed
+ src/lib/data/company.ts      |  7 +++++
+ src/lib/data/navigation.ts   |  6 ++++
+ src/lib/data/services.ts     | 65 ++++++++++++++++++++++++++++++++++++++++++++
+ src/lib/data/team.ts         | 26 ++++++++++++++++++
+ src/lib/data/testimonials.ts | 26 ++++++++++++++++++
+ 5 files changed, 130 insertions(+)
+
+## Diff
+diff --git a/src/lib/data/company.ts b/src/lib/data/company.ts
+new file mode 100644
+index 0000000..cf520ec
+--- /dev/null
++++ b/src/lib/data/company.ts
+@@ -0,0 +1,7 @@
++export const COMPANY = {
++  name: "Tech Craftsmen",
++  email: "hello@techcraftsmen.com",
++  phone: "+1 (555) 123-4567",
++  address: "San Francisco, CA",
++  tagline: "Software crafted with precision. Infrastructure built to last.",
++};
+diff --git a/src/lib/data/navigation.ts b/src/lib/data/navigation.ts
+new file mode 100644
+index 0000000..d9674ad
+--- /dev/null
++++ b/src/lib/data/navigation.ts
+@@ -0,0 +1,6 @@
++export const NAV_ITEMS = [
++  { label: "Home", href: "/" },
++  { label: "Services", href: "/services" },
++  { label: "About", href: "/about" },
++  { label: "Contact", href: "/contact" },
++] as const;
+diff --git a/src/lib/data/services.ts b/src/lib/data/services.ts
+new file mode 100644
+index 0000000..9dd8929
+--- /dev/null
++++ b/src/lib/data/services.ts
+@@ -0,0 +1,65 @@
++import { Code2, Cloud, GitFork } from "lucide-react";
++
++export const SERVICES = [
++  {
++    id: "custom-software",
++    title: "Custom Software Development",
++    description:
++      "We build tailored software solutions that solve real business problems — from web applications to backend systems, APIs, and integrations.",
++    icon: "Code2",
++    details: [
++      "Full-stack web application development",
++      "API design and system integrations",
++      "Legacy system modernization",
++      "Performance optimization and scaling",
++      "Technology consulting and architecture",
++    ],
++    technologies: [
++      "React",
++      "Next.js",
++      "Node.js",
++      "TypeScript",
++      "Python",
++      "PostgreSQL",
++      "Docker",
++    ],
++  },
++  {
++    id: "cloud-consulting",
++    title: "Cloud Consulting",
++    description:
++      "We help you navigate the cloud landscape — designing, migrating, and optimizing infrastructure on AWS, Azure, or GCP.",
++    icon: "Cloud",
++    details: [
++      "Cloud strategy and architecture design",
++      "Migration planning and execution",
++      "Cost optimization and governance",
++      "Multi-cloud and hybrid setups",
++      "Disaster recovery and high availability",
++    ],
++    technologies: ["AWS", "Azure", "GCP", "Terraform", "Kubernetes"],
++  },
++  {
++    id: "devops",
++    title: "DevOps",
++    description:
++      "We streamline your delivery pipeline — automating builds, tests, deployments, and monitoring for faster, more reliable releases.",
++    icon: "GitFork",
++    details: [
++      "CI/CD pipeline setup and optimization",
++      "Infrastructure as Code (IaC)",
++      "Containerization and orchestration",
++      "Monitoring, logging, and alerting",
++      "Security and compliance automation",
++    ],
++    technologies: [
++      "GitHub Actions",
++      "Jenkins",
++      "Terraform",
++      "Docker",
++      "Kubernetes",
++      "Prometheus",
++      "Grafana",
++    ],
++  },
++];
+diff --git a/src/lib/data/team.ts b/src/lib/data/team.ts
+new file mode 100644
+index 0000000..31ca553
+--- /dev/null
++++ b/src/lib/data/team.ts
+@@ -0,0 +1,26 @@
++export const TEAM_MEMBERS = [
++  {
++    id: "1",
++    name: "Alex Morgan",
++    role: "Founder & Lead Engineer",
++    bio: "15 years of software engineering experience. Previously led engineering teams at two Fortune 500 companies. Passionate about clean architecture and pragmatic solutions.",
++  },
++  {
++    id: "2",
++    name: "Jordan Park",
++    role: "Cloud Architect",
++    bio: "AWS and GCP certified architect with deep expertise in distributed systems. Helped 30+ companies migrate to the cloud with zero data loss.",
++  },
++  {
++    id: "3",
++    name: "Taylor Reed",
++    role: "DevOps Engineer",
++    bio: "Infrastructure automation specialist. Built CI/CD pipelines processing 10,000+ deployments per month. Open source contributor to Terraform and Kubernetes ecosystems.",
++  },
++  {
++    id: "4",
++    name: "Morgan Walsh",
++    role: "Full-Stack Developer",
++    bio: "Full-stack developer focused on React and Node.js ecosystems. Specializes in building performant, accessible web applications with modern tooling.",
++  },
++];
+diff --git a/src/lib/data/testimonials.ts b/src/lib/data/testimonials.ts
+new file mode 100644
+index 0000000..afc0a7a
+--- /dev/null
++++ b/src/lib/data/testimonials.ts
+@@ -0,0 +1,26 @@
++export const TESTIMONIALS = [
++  {
++    id: "1",
++    quote:
++      "Tech Craftsmen transformed our legacy system into a modern, scalable platform. Their attention to detail and engineering rigor is unmatched.",
++    author: "Sarah Chen",
++    role: "CTO",
++    company: "Finova Technologies",
++  },
++  {
++    id: "2",
++    quote:
++      "Our cloud migration was seamless. They handled everything from architecture to execution. Downtime was zero. We couldn't be happier.",
++    author: "Marcus Rivera",
++    role: "VP of Engineering",
++    company: "Streamline Health",
++  },
++  {
++    id: "3",
++    quote:
++      "The DevOps pipeline they built cut our deployment time from hours to minutes. Our team can now ship with confidence multiple times a day.",
++    author: "Elena Kowalski",
++    role: "Engineering Manager",
++    company: "DataPulse Analytics",
++  },
++];

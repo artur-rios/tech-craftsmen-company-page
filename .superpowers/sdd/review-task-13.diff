@@ -1,0 +1,23 @@
+# Review package: f4083c6..HEAD
+
+## Commits
+e6bdeda feat: configure static export and verify production build
+
+## Files changed
+ next.config.ts | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+## Diff
+diff --git a/next.config.ts b/next.config.ts
+index e9ffa30..65c102b 100644
+--- a/next.config.ts
++++ b/next.config.ts
+@@ -1,7 +1,7 @@
+ import type { NextConfig } from "next";
+ 
+ const nextConfig: NextConfig = {
+-  /* config options here */
++  output: "export",
+ };
+ 
+ export default nextConfig;

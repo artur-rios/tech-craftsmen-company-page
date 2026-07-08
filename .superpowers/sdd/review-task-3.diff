@@ -1,0 +1,980 @@
+# Review package: 5c32c7ff1b2d308fa3e482989d94202126ab05b0..HEAD
+
+## Commits
+ffd0b1f feat: initialize shadcn/ui with core components
+
+## Files changed
+ components.json                 |  20 ++++
+ package-lock.json               | 127 ++++++++++++++++++++-
+ package.json                    |   1 +
+ src/app/globals.css             |   4 +
+ src/components/ui/badge.tsx     |  52 +++++++++
+ src/components/ui/button.tsx    |  58 ++++++++++
+ src/components/ui/card.tsx      | 103 +++++++++++++++++
+ src/components/ui/field.tsx     | 238 ++++++++++++++++++++++++++++++++++++++++
+ src/components/ui/input.tsx     |  20 ++++
+ src/components/ui/label.tsx     |  20 ++++
+ src/components/ui/separator.tsx |  25 +++++
+ src/components/ui/textarea.tsx  |  18 +++
+ 12 files changed, 684 insertions(+), 2 deletions(-)
+
+## Diff
+diff --git a/components.json b/components.json
+new file mode 100644
+index 0000000..ae8037a
+--- /dev/null
++++ b/components.json
+@@ -0,0 +1,20 @@
++{
++  "$schema": "https://ui.shadcn.com/schema.json",
++  "style": "base-nova",
++  "rsc": true,
++  "tsx": true,
++  "tailwind": {
++    "config": "",
++    "css": "src/app/globals.css",
++    "baseColor": "neutral",
++    "cssVariables": true,
++    "prefix": ""
++  },
++  "aliases": {
++    "components": "@/components",
++    "utils": "@/lib/utils",
++    "ui": "@/components/ui",
++    "lib": "@/lib",
++    "hooks": "@/hooks"
++  }
++}
+diff --git a/package-lock.json b/package-lock.json
+index b818ca7..f64c2aa 100644
+--- a/package-lock.json
++++ b/package-lock.json
+@@ -1,20 +1,21 @@
+ {
+   "name": "tech-craftsmen-company-page",
+   "version": "0.1.0",
+   "lockfileVersion": 3,
+   "requires": true,
+   "packages": {
+     "": {
+       "name": "tech-craftsmen-company-page",
+       "version": "0.1.0",
+       "dependencies": {
++        "@base-ui/react": "^1.6.0",
+         "@hookform/resolvers": "^5.4.0",
+         "class-variance-authority": "^0.7.1",
+         "clsx": "^2.1.1",
+         "lucide-react": "^1.23.0",
+         "next": "16.2.10",
+         "next-themes": "^0.4.6",
+         "react": "19.2.4",
+         "react-dom": "19.2.4",
+         "react-hook-form": "^7.81.0",
+         "tailwind-merge": "^3.6.0",
+@@ -229,20 +230,29 @@
+       "dependencies": {
+         "@babel/types": "^7.29.7"
+       },
+       "bin": {
+         "parser": "bin/babel-parser.js"
+       },
+       "engines": {
+         "node": ">=6.0.0"
+       }
+     },
++    "node_modules/@babel/runtime": {
++      "version": "7.29.7",
++      "resolved": "https://registry.npmjs.org/@babel/runtime/-/runtime-7.29.7.tgz",
++      "integrity": "sha512-Nq8OhGWiZIZGV6hLHoyAKLLcJihP/xFeBMGJoUrxTX2psI8dCifzLhZISFb+VWS3wFMRDmCGw5R+dOySCqPLhw==",
++      "license": "MIT",
++      "engines": {
++        "node": ">=6.9.0"
++      }
++    },
+     "node_modules/@babel/template": {
+       "version": "7.29.7",
+       "resolved": "https://registry.npmjs.org/@babel/template/-/template-7.29.7.tgz",
+       "integrity": "sha512-puq+Gf35oI24FeN11LkoUQFqv9uwNeWpxXZi/Ji3rRIoKAzKnxRaZ+Gkj0vKS9ZCiTESfng1N9LyOyXvo+m+Gg==",
+       "dev": true,
+       "license": "MIT",
+       "dependencies": {
+         "@babel/code-frame": "^7.29.7",
+         "@babel/parser": "^7.29.7",
+         "@babel/types": "^7.29.7"
+@@ -277,20 +287,80 @@
+       "dev": true,
+       "license": "MIT",
+       "dependencies": {
+         "@babel/helper-string-parser": "^7.29.7",
+         "@babel/helper-validator-identifier": "^7.29.7"
+       },
+       "engines": {
+         "node": ">=6.9.0"
+       }
+     },
++    "node_modules/@base-ui/react": {
++      "version": "1.6.0",
++      "resolved": "https://registry.npmjs.org/@base-ui/react/-/react-1.6.0.tgz",
++      "integrity": "sha512-/jzjTWJYXhRFO45Bev9lc3cHbmjzCMpUqbMZ2AgKy/z25mY9B6shGSNcXcjQar9n5doM0KYW1W8fcFv2jZBuMw==",
++      "license": "MIT",
++      "dependencies": {
++        "@babel/runtime": "^7.29.2",
++        "@base-ui/utils": "0.3.1",
++        "@floating-ui/react-dom": "^2.1.8",
++        "@floating-ui/utils": "^0.2.11",
++        "use-sync-external-store": "^1.6.0"
++      },
++      "engines": {
++        "node": ">=14.0.0"
++      },
++      "funding": {
++        "type": "opencollective",
++        "url": "https://opencollective.com/mui-org"
++      },
++      "peerDependencies": {
++        "@date-fns/tz": "^1.2.0",
++        "@types/react": "^17 || ^18 || ^19",
++        "date-fns": "^4.0.0",
++        "react": "^17 || ^18 || ^19",
++        "react-dom": "^17 || ^18 || ^19"
++      },
++      "peerDependenciesMeta": {
++        "@date-fns/tz": {
++          "optional": true
++        },
++        "@types/react": {
++          "optional": true
++        },
++        "date-fns": {
++          "optional": true
++        }
++      }
++    },
++    "node_modules/@base-ui/utils": {
++      "version": "0.3.1",
++      "resolved": "https://registry.npmjs.org/@base-ui/utils/-/utils-0.3.1.tgz",
++      "integrity": "sha512-gFFiltORVmW/N6IILTGxizP3PBpVpysqML1ALY5Vk0mH+7faVkCknOU31goYHN5Aoek2dkjxva1XOD2Ce9WuIg==",
++      "license": "MIT",
++      "dependencies": {
++        "@babel/runtime": "^7.29.2",
++        "@floating-ui/utils": "^0.2.11",
++        "reselect": "^5.2.0",
++        "use-sync-external-store": "^1.6.0"
++      },
++      "peerDependencies": {
++        "@types/react": "^17 || ^18 || ^19",
++        "react": "^17 || ^18 || ^19",
++        "react-dom": "^17 || ^18 || ^19"
++      },
++      "peerDependenciesMeta": {
++        "@types/react": {
++          "optional": true
++        }
++      }
++    },
+     "node_modules/@emnapi/core": {
+       "version": "1.10.0",
+       "resolved": "https://registry.npmjs.org/@emnapi/core/-/core-1.10.0.tgz",
+       "integrity": "sha512-yq6OkJ4p82CAfPl0u9mQebQHKPJkY7WrIuk205cTYnYe+k2Z8YBh11FrbRG/H6ihirqcacOgl2BIO8oyMQLeXw==",
+       "dev": true,
+       "license": "MIT",
+       "optional": true,
+       "dependencies": {
+         "@emnapi/wasi-threads": "1.2.1",
+         "tslib": "^2.4.0"
+@@ -454,20 +524,58 @@
+       "dev": true,
+       "license": "Apache-2.0",
+       "dependencies": {
+         "@eslint/core": "^0.17.0",
+         "levn": "^0.4.1"
+       },
+       "engines": {
+         "node": "^18.18.0 || ^20.9.0 || >=21.1.0"
+       }
+     },
++    "node_modules/@floating-ui/core": {
++      "version": "1.7.5",
++      "resolved": "https://registry.npmjs.org/@floating-ui/core/-/core-1.7.5.tgz",
++      "integrity": "sha512-1Ih4WTWyw0+lKyFMcBHGbb5U5FtuHJuujoyyr5zTaWS5EYMeT6Jb2AuDeftsCsEuchO+mM2ij5+q9crhydzLhQ==",
++      "license": "MIT",
++      "dependencies": {
++        "@floating-ui/utils": "^0.2.11"
++      }
++    },
++    "node_modules/@floating-ui/dom": {
++      "version": "1.7.6",
++      "resolved": "https://registry.npmjs.org/@floating-ui/dom/-/dom-1.7.6.tgz",
++      "integrity": "sha512-9gZSAI5XM36880PPMm//9dfiEngYoC6Am2izES1FF406YFsjvyBMmeJ2g4SAju3xWwtuynNRFL2s9hgxpLI5SQ==",
++      "license": "MIT",
++      "dependencies": {
++        "@floating-ui/core": "^1.7.5",
++        "@floating-ui/utils": "^0.2.11"
++      }
++    },
++    "node_modules/@floating-ui/react-dom": {
++      "version": "2.1.8",
++      "resolved": "https://registry.npmjs.org/@floating-ui/react-dom/-/react-dom-2.1.8.tgz",
++      "integrity": "sha512-cC52bHwM/n/CxS87FH0yWdngEZrjdtLW/qVruo68qg+prK7ZQ4YGdut2GyDVpoGeAYe/h899rVeOVm6Oi40k2A==",
++      "license": "MIT",
++      "dependencies": {
++        "@floating-ui/dom": "^1.7.6"
++      },
++      "peerDependencies": {
++        "react": ">=16.8.0",
++        "react-dom": ">=16.8.0"
++      }
++    },
++    "node_modules/@floating-ui/utils": {
++      "version": "0.2.11",
++      "resolved": "https://registry.npmjs.org/@floating-ui/utils/-/utils-0.2.11.tgz",
++      "integrity": "sha512-RiB/yIh78pcIxl6lLMG0CgBXAZ2Y0eVHqMPYugu+9U0AeT6YBeiJpf7lbdJNIugFP5SIjwNRgo4DhR1Qxi26Gg==",
++      "license": "MIT"
++    },
+     "node_modules/@hookform/resolvers": {
+       "version": "5.4.0",
+       "resolved": "https://registry.npmjs.org/@hookform/resolvers/-/resolvers-5.4.0.tgz",
+       "integrity": "sha512-EIsqr/t/qbinPIhGjMdtvutIN1Kk4uwbROE9/UQ93CAVGR7GkA7Y92+fX80OzXi/OB67jVFYwKGO1WzkxmkFZw==",
+       "license": "MIT",
+       "dependencies": {
+         "@standard-schema/utils": "^0.3.0"
+       },
+       "peerDependencies": {
+         "react-hook-form": "^7.55.0"
+@@ -1598,21 +1706,21 @@
+       "dev": true,
+       "license": "MIT",
+       "dependencies": {
+         "undici-types": "~6.21.0"
+       }
+     },
+     "node_modules/@types/react": {
+       "version": "19.2.17",
+       "resolved": "https://registry.npmjs.org/@types/react/-/react-19.2.17.tgz",
+       "integrity": "sha512-MXfmqaVPEVgkBT/aY0aGCkRWWtByiYQXo3xdQ8r5RzuFrPiRn8Gar2tQdXSUQ2GKV3bkXckek89V8wQBY2Q/Aw==",
+-      "dev": true,
++      "devOptional": true,
+       "license": "MIT",
+       "dependencies": {
+         "csstype": "^3.2.2"
+       }
+     },
+     "node_modules/@types/react-dom": {
+       "version": "19.2.3",
+       "resolved": "https://registry.npmjs.org/@types/react-dom/-/react-dom-19.2.3.tgz",
+       "integrity": "sha512-jp2L/eY6fn+KgVVQAOqYItbF0VY/YApe5Mz2F0aykSO8gx31bYCZyvSeYxCHKvzHG5eZjc+zyaS5BrBWya2+kQ==",
+       "dev": true,
+@@ -2773,21 +2881,21 @@
+         "which": "^2.0.1"
+       },
+       "engines": {
+         "node": ">= 8"
+       }
+     },
+     "node_modules/csstype": {
+       "version": "3.2.3",
+       "resolved": "https://registry.npmjs.org/csstype/-/csstype-3.2.3.tgz",
+       "integrity": "sha512-z1HGKcYy2xA8AGQfwrn0PAy+PB7X/GSj3UVJW9qKyn43xWa+gl5nXmU4qqLMRzWVLFC8KusUX8T/0kCiOYpAIQ==",
+-      "dev": true,
++      "devOptional": true,
+       "license": "MIT"
+     },
+     "node_modules/damerau-levenshtein": {
+       "version": "1.0.8",
+       "resolved": "https://registry.npmjs.org/damerau-levenshtein/-/damerau-levenshtein-1.0.8.tgz",
+       "integrity": "sha512-sdQSFB7+llfUcQHUQO3+B8ERRj0Oa4w9POWMI/puGtuf7gFywGmkaLCElnudfTiKZV+NvHqL0ifzdrI8Ro7ESA==",
+       "dev": true,
+       "license": "BSD-2-Clause"
+     },
+     "node_modules/data-view-buffer": {
+@@ -5684,20 +5792,26 @@
+         "gopd": "^1.2.0",
+         "set-function-name": "^2.0.2"
+       },
+       "engines": {
+         "node": ">= 0.4"
+       },
+       "funding": {
+         "url": "https://github.com/sponsors/ljharb"
+       }
+     },
++    "node_modules/reselect": {
++      "version": "5.2.0",
++      "resolved": "https://registry.npmjs.org/reselect/-/reselect-5.2.0.tgz",
++      "integrity": "sha512-AgZ3UOZm3YndfrJ4OYjgrT7bmCm/1iqkjvEfH/oYjzh6PD2qw4QuT3jjnXIrpdt4MTpMXclMT3lXbmRY+XRakw==",
++      "license": "MIT"
++    },
+     "node_modules/resolve": {
+       "version": "2.0.0-next.7",
+       "resolved": "https://registry.npmjs.org/resolve/-/resolve-2.0.0-next.7.tgz",
+       "integrity": "sha512-tqt+NBWwyaMgw3zDsnygx4CByWjQEJHOPMdslYhppaQSJUtL/D4JO9CcBBlhPoI8lz9oJIDXkwXfhF4aWqP8xQ==",
+       "dev": true,
+       "license": "MIT",
+       "dependencies": {
+         "es-errors": "^1.3.0",
+         "is-core-module": "^2.16.2",
+         "node-exports-info": "^1.6.0",
+@@ -6627,20 +6741,29 @@
+     "node_modules/uri-js": {
+       "version": "4.4.1",
+       "resolved": "https://registry.npmjs.org/uri-js/-/uri-js-4.4.1.tgz",
+       "integrity": "sha512-7rKUyy33Q1yc98pQ1DAmLtwX109F7TIfWlW1Ydo8Wl1ii1SeHieeh0HHfPeL2fMXK6z0s8ecKs9frCuLJvndBg==",
+       "dev": true,
+       "license": "BSD-2-Clause",
+       "dependencies": {
+         "punycode": "^2.1.0"
+       }
+     },
++    "node_modules/use-sync-external-store": {
++      "version": "1.6.0",
++      "resolved": "https://registry.npmjs.org/use-sync-external-store/-/use-sync-external-store-1.6.0.tgz",
++      "integrity": "sha512-Pp6GSwGP/NrPIrxVFAIkOQeyw8lFenOHijQWkUTrDvrF4ALqylP2C/KCkeS9dpUM3KvYRQhna5vt7IL95+ZQ9w==",
++      "license": "MIT",
++      "peerDependencies": {
++        "react": "^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0"
++      }
++    },
+     "node_modules/which": {
+       "version": "2.0.2",
+       "resolved": "https://registry.npmjs.org/which/-/which-2.0.2.tgz",
+       "integrity": "sha512-BLI3Tl1TW3Pvl70l3yq3Y64i+awpwXqsGBYWkkqMtnbXgrMD+yj7rhW0kuEDxzJaYXGjEW5ogapKNMEKNMjibA==",
+       "dev": true,
+       "license": "ISC",
+       "dependencies": {
+         "isexe": "^2.0.0"
+       },
+       "bin": {
+diff --git a/package.json b/package.json
+index 162b0f6..34e452c 100644
+--- a/package.json
++++ b/package.json
+@@ -2,20 +2,21 @@
+   "name": "tech-craftsmen-company-page",
+   "version": "0.1.0",
+   "private": true,
+   "scripts": {
+     "dev": "next dev",
+     "build": "next build",
+     "start": "next start",
+     "lint": "eslint"
+   },
+   "dependencies": {
++    "@base-ui/react": "^1.6.0",
+     "@hookform/resolvers": "^5.4.0",
+     "class-variance-authority": "^0.7.1",
+     "clsx": "^2.1.1",
+     "lucide-react": "^1.23.0",
+     "next": "16.2.10",
+     "next-themes": "^0.4.6",
+     "react": "19.2.4",
+     "react-dom": "19.2.4",
+     "react-hook-form": "^7.81.0",
+     "tailwind-merge": "^3.6.0",
+diff --git a/src/app/globals.css b/src/app/globals.css
+index 59bedae..c2a7be5 100644
+--- a/src/app/globals.css
++++ b/src/app/globals.css
+@@ -1,17 +1,21 @@
+ @import "tailwindcss";
+ 
+ @theme inline {
+   --color-background: #1a1a1a;
+   --color-background-secondary: #262626;
+   --color-foreground: #f5f0eb;
+   --color-foreground-muted: #a39e96;
++  --color-primary: #c68e3c;
++  --color-primary-foreground: #1a1a1a;
++  --color-secondary: #2a2a2a;
++  --color-secondary-foreground: #f5f0eb;
+   --color-accent: #c68e3c;
+   --color-accent-hover: #b87333;
+   --color-card: #262626;
+   --color-card-foreground: #f5f0eb;
+   --color-border: #3d3a35;
+   --color-input: #1a1a1a;
+   --color-ring: #c68e3c;
+   --color-destructive: #dc2626;
+   --color-muted: #2a2a2a;
+   --color-muted-foreground: #a39e96;
+diff --git a/src/components/ui/badge.tsx b/src/components/ui/badge.tsx
+new file mode 100644
+index 0000000..b20959d
+--- /dev/null
++++ b/src/components/ui/badge.tsx
+@@ -0,0 +1,52 @@
++import { mergeProps } from "@base-ui/react/merge-props"
++import { useRender } from "@base-ui/react/use-render"
++import { cva, type VariantProps } from "class-variance-authority"
++
++import { cn } from "@/lib/utils"
++
++const badgeVariants = cva(
++  "group/badge inline-flex h-5 w-fit shrink-0 items-center justify-center gap-1 overflow-hidden rounded-4xl border border-transparent px-2 py-0.5 text-xs font-medium whitespace-nowrap transition-all focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 has-data-[icon=inline-end]:pr-1.5 has-data-[icon=inline-start]:pl-1.5 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&>svg]:pointer-events-none [&>svg]:size-3!",
++  {
++    variants: {
++      variant: {
++        default: "bg-primary text-primary-foreground [a]:hover:bg-primary/80",
++        secondary:
++          "bg-secondary text-secondary-foreground [a]:hover:bg-secondary/80",
++        destructive:
++          "bg-destructive/10 text-destructive focus-visible:ring-destructive/20 dark:bg-destructive/20 dark:focus-visible:ring-destructive/40 [a]:hover:bg-destructive/20",
++        outline:
++          "border-border text-foreground [a]:hover:bg-muted [a]:hover:text-muted-foreground",
++        ghost:
++          "hover:bg-muted hover:text-muted-foreground dark:hover:bg-muted/50",
++        link: "text-primary underline-offset-4 hover:underline",
++      },
++    },
++    defaultVariants: {
++      variant: "default",
++    },
++  }
++)
++
++function Badge({
++  className,
++  variant = "default",
++  render,
++  ...props
++}: useRender.ComponentProps<"span"> & VariantProps<typeof badgeVariants>) {
++  return useRender({
++    defaultTagName: "span",
++    props: mergeProps<"span">(
++      {
++        className: cn(badgeVariants({ variant }), className),
++      },
++      props
++    ),
++    render,
++    state: {
++      slot: "badge",
++      variant,
++    },
++  })
++}
++
++export { Badge, badgeVariants }
+diff --git a/src/components/ui/button.tsx b/src/components/ui/button.tsx
+new file mode 100644
+index 0000000..b033601
+--- /dev/null
++++ b/src/components/ui/button.tsx
+@@ -0,0 +1,58 @@
++import { Button as ButtonPrimitive } from "@base-ui/react/button"
++import { cva, type VariantProps } from "class-variance-authority"
++
++import { cn } from "@/lib/utils"
++
++const buttonVariants = cva(
++  "group/button inline-flex shrink-0 items-center justify-center rounded-lg border border-transparent bg-clip-padding text-sm font-medium whitespace-nowrap transition-all outline-none select-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 active:not-aria-[haspopup]:translate-y-px disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-3 aria-invalid:ring-destructive/20 dark:aria-invalid:border-destructive/50 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
++  {
++    variants: {
++      variant: {
++        default: "bg-primary text-primary-foreground hover:bg-primary/80",
++        outline:
++          "border-border bg-background hover:bg-muted hover:text-foreground aria-expanded:bg-muted aria-expanded:text-foreground dark:border-input dark:bg-input/30 dark:hover:bg-input/50",
++        secondary:
++          "bg-secondary text-secondary-foreground hover:bg-[color-mix(in_oklch,var(--secondary),var(--foreground)_5%)] aria-expanded:bg-secondary aria-expanded:text-secondary-foreground",
++        ghost:
++          "hover:bg-muted hover:text-foreground aria-expanded:bg-muted aria-expanded:text-foreground dark:hover:bg-muted/50",
++        destructive:
++          "bg-destructive/10 text-destructive hover:bg-destructive/20 focus-visible:border-destructive/40 focus-visible:ring-destructive/20 dark:bg-destructive/20 dark:hover:bg-destructive/30 dark:focus-visible:ring-destructive/40",
++        link: "text-primary underline-offset-4 hover:underline",
++      },
++      size: {
++        default:
++          "h-8 gap-1.5 px-2.5 has-data-[icon=inline-end]:pr-2 has-data-[icon=inline-start]:pl-2",
++        xs: "h-6 gap-1 rounded-[min(var(--radius-md),10px)] px-2 text-xs in-data-[slot=button-group]:rounded-lg has-data-[icon=inline-end]:pr-1.5 has-data-[icon=inline-start]:pl-1.5 [&_svg:not([class*='size-'])]:size-3",
++        sm: "h-7 gap-1 rounded-[min(var(--radius-md),12px)] px-2.5 text-[0.8rem] in-data-[slot=button-group]:rounded-lg has-data-[icon=inline-end]:pr-1.5 has-data-[icon=inline-start]:pl-1.5 [&_svg:not([class*='size-'])]:size-3.5",
++        lg: "h-9 gap-1.5 px-2.5 has-data-[icon=inline-end]:pr-2 has-data-[icon=inline-start]:pl-2",
++        icon: "size-8",
++        "icon-xs":
++          "size-6 rounded-[min(var(--radius-md),10px)] in-data-[slot=button-group]:rounded-lg [&_svg:not([class*='size-'])]:size-3",
++        "icon-sm":
++          "size-7 rounded-[min(var(--radius-md),12px)] in-data-[slot=button-group]:rounded-lg",
++        "icon-lg": "size-9",
++      },
++    },
++    defaultVariants: {
++      variant: "default",
++      size: "default",
++    },
++  }
++)
++
++function Button({
++  className,
++  variant = "default",
++  size = "default",
++  ...props
++}: ButtonPrimitive.Props & VariantProps<typeof buttonVariants>) {
++  return (
++    <ButtonPrimitive
++      data-slot="button"
++      className={cn(buttonVariants({ variant, size, className }))}
++      {...props}
++    />
++  )
++}
++
++export { Button, buttonVariants }
+diff --git a/src/components/ui/card.tsx b/src/components/ui/card.tsx
+new file mode 100644
+index 0000000..4458dae
+--- /dev/null
++++ b/src/components/ui/card.tsx
+@@ -0,0 +1,103 @@
++import * as React from "react"
++
++import { cn } from "@/lib/utils"
++
++function Card({
++  className,
++  size = "default",
++  ...props
++}: React.ComponentProps<"div"> & { size?: "default" | "sm" }) {
++  return (
++    <div
++      data-slot="card"
++      data-size={size}
++      className={cn(
++        "group/card flex flex-col gap-(--card-spacing) overflow-hidden rounded-xl bg-card py-(--card-spacing) text-sm text-card-foreground ring-1 ring-foreground/10 [--card-spacing:--spacing(4)] has-data-[slot=card-footer]:pb-0 has-[>img:first-child]:pt-0 data-[size=sm]:[--card-spacing:--spacing(3)] data-[size=sm]:has-data-[slot=card-footer]:pb-0 *:[img:first-child]:rounded-t-xl *:[img:last-child]:rounded-b-xl",
++        className
++      )}
++      {...props}
++    />
++  )
++}
++
++function CardHeader({ className, ...props }: React.ComponentProps<"div">) {
++  return (
++    <div
++      data-slot="card-header"
++      className={cn(
++        "group/card-header @container/card-header grid auto-rows-min items-start gap-1 rounded-t-xl px-(--card-spacing) has-data-[slot=card-action]:grid-cols-[1fr_auto] has-data-[slot=card-description]:grid-rows-[auto_auto] [.border-b]:pb-(--card-spacing)",
++        className
++      )}
++      {...props}
++    />
++  )
++}
++
++function CardTitle({ className, ...props }: React.ComponentProps<"div">) {
++  return (
++    <div
++      data-slot="card-title"
++      className={cn(
++        "font-heading text-base leading-snug font-medium group-data-[size=sm]/card:text-sm",
++        className
++      )}
++      {...props}
++    />
++  )
++}
++
++function CardDescription({ className, ...props }: React.ComponentProps<"div">) {
++  return (
++    <div
++      data-slot="card-description"
++      className={cn("text-sm text-muted-foreground", className)}
++      {...props}
++    />
++  )
++}
++
++function CardAction({ className, ...props }: React.ComponentProps<"div">) {
++  return (
++    <div
++      data-slot="card-action"
++      className={cn(
++        "col-start-2 row-span-2 row-start-1 self-start justify-self-end",
++        className
++      )}
++      {...props}
++    />
++  )
++}
++
++function CardContent({ className, ...props }: React.ComponentProps<"div">) {
++  return (
++    <div
++      data-slot="card-content"
++      className={cn("px-(--card-spacing)", className)}
++      {...props}
++    />
++  )
++}
++
++function CardFooter({ className, ...props }: React.ComponentProps<"div">) {
++  return (
++    <div
++      data-slot="card-footer"
++      className={cn(
++        "flex items-center rounded-b-xl border-t bg-muted/50 p-(--card-spacing)",
++        className
++      )}
++      {...props}
++    />
++  )
++}
++
++export {
++  Card,
++  CardHeader,
++  CardFooter,
++  CardTitle,
++  CardAction,
++  CardDescription,
++  CardContent,
++}
+diff --git a/src/components/ui/field.tsx b/src/components/ui/field.tsx
+new file mode 100644
+index 0000000..2bc5bb6
+--- /dev/null
++++ b/src/components/ui/field.tsx
+@@ -0,0 +1,238 @@
++"use client"
++
++import { useMemo } from "react"
++import { cva, type VariantProps } from "class-variance-authority"
++
++import { cn } from "@/lib/utils"
++import { Label } from "@/components/ui/label"
++import { Separator } from "@/components/ui/separator"
++
++function FieldSet({ className, ...props }: React.ComponentProps<"fieldset">) {
++  return (
++    <fieldset
++      data-slot="field-set"
++      className={cn(
++        "flex flex-col gap-4 has-[>[data-slot=checkbox-group]]:gap-3 has-[>[data-slot=radio-group]]:gap-3",
++        className
++      )}
++      {...props}
++    />
++  )
++}
++
++function FieldLegend({
++  className,
++  variant = "legend",
++  ...props
++}: React.ComponentProps<"legend"> & { variant?: "legend" | "label" }) {
++  return (
++    <legend
++      data-slot="field-legend"
++      data-variant={variant}
++      className={cn(
++        "mb-1.5 font-medium data-[variant=label]:text-sm data-[variant=legend]:text-base",
++        className
++      )}
++      {...props}
++    />
++  )
++}
++
++function FieldGroup({ className, ...props }: React.ComponentProps<"div">) {
++  return (
++    <div
++      data-slot="field-group"
++      className={cn(
++        "group/field-group @container/field-group flex w-full flex-col gap-5 data-[slot=checkbox-group]:gap-3 *:data-[slot=field-group]:gap-4",
++        className
++      )}
++      {...props}
++    />
++  )
++}
++
++const fieldVariants = cva(
++  "group/field flex w-full gap-2 data-[invalid=true]:text-destructive",
++  {
++    variants: {
++      orientation: {
++        vertical: "flex-col *:w-full [&>.sr-only]:w-auto",
++        horizontal:
++          "flex-row items-center has-[>[data-slot=field-content]]:items-start *:data-[slot=field-label]:flex-auto has-[>[data-slot=field-content]]:[&>[role=checkbox],[role=radio]]:mt-px",
++        responsive:
++          "flex-col *:w-full @md/field-group:flex-row @md/field-group:items-center @md/field-group:*:w-auto @md/field-group:has-[>[data-slot=field-content]]:items-start @md/field-group:*:data-[slot=field-label]:flex-auto [&>.sr-only]:w-auto @md/field-group:has-[>[data-slot=field-content]]:[&>[role=checkbox],[role=radio]]:mt-px",
++      },
++    },
++    defaultVariants: {
++      orientation: "vertical",
++    },
++  }
++)
++
++function Field({
++  className,
++  orientation = "vertical",
++  ...props
++}: React.ComponentProps<"div"> & VariantProps<typeof fieldVariants>) {
++  return (
++    <div
++      role="group"
++      data-slot="field"
++      data-orientation={orientation}
++      className={cn(fieldVariants({ orientation }), className)}
++      {...props}
++    />
++  )
++}
++
++function FieldContent({ className, ...props }: React.ComponentProps<"div">) {
++  return (
++    <div
++      data-slot="field-content"
++      className={cn(
++        "group/field-content flex flex-1 flex-col gap-0.5 leading-snug",
++        className
++      )}
++      {...props}
++    />
++  )
++}
++
++function FieldLabel({
++  className,
++  ...props
++}: React.ComponentProps<typeof Label>) {
++  return (
++    <Label
++      data-slot="field-label"
++      className={cn(
++        "group/field-label peer/field-label flex w-fit gap-2 leading-snug group-data-[disabled=true]/field:opacity-50 has-data-checked:border-primary/30 has-data-checked:bg-primary/5 has-[>[data-slot=field]]:rounded-lg has-[>[data-slot=field]]:border *:data-[slot=field]:p-2.5 dark:has-data-checked:border-primary/20 dark:has-data-checked:bg-primary/10",
++        "has-[>[data-slot=field]]:w-full has-[>[data-slot=field]]:flex-col",
++        className
++      )}
++      {...props}
++    />
++  )
++}
++
++function FieldTitle({ className, ...props }: React.ComponentProps<"div">) {
++  return (
++    <div
++      data-slot="field-label"
++      className={cn(
++        "flex w-fit items-center gap-2 text-sm font-medium group-data-[disabled=true]/field:opacity-50",
++        className
++      )}
++      {...props}
++    />
++  )
++}
++
++function FieldDescription({ className, ...props }: React.ComponentProps<"p">) {
++  return (
++    <p
++      data-slot="field-description"
++      className={cn(
++        "text-left text-sm leading-normal font-normal text-muted-foreground group-has-data-horizontal/field:text-balance [[data-variant=legend]+&]:-mt-1.5",
++        "last:mt-0 nth-last-2:-mt-1",
++        "[&>a]:underline [&>a]:underline-offset-4 [&>a:hover]:text-primary",
++        className
++      )}
++      {...props}
++    />
++  )
++}
++
++function FieldSeparator({
++  children,
++  className,
++  ...props
++}: React.ComponentProps<"div"> & {
++  children?: React.ReactNode
++}) {
++  return (
++    <div
++      data-slot="field-separator"
++      data-content={!!children}
++      className={cn(
++        "relative -my-2 h-5 text-sm group-data-[variant=outline]/field-group:-mb-2",
++        className
++      )}
++      {...props}
++    >
++      <Separator className="absolute inset-0 top-1/2" />
++      {children && (
++        <span
++          className="relative mx-auto block w-fit bg-background px-2 text-muted-foreground"
++          data-slot="field-separator-content"
++        >
++          {children}
++        </span>
++      )}
++    </div>
++  )
++}
++
++function FieldError({
++  className,
++  children,
++  errors,
++  ...props
++}: React.ComponentProps<"div"> & {
++  errors?: Array<{ message?: string } | undefined>
++}) {
++  const content = useMemo(() => {
++    if (children) {
++      return children
++    }
++
++    if (!errors?.length) {
++      return null
++    }
++
++    const uniqueErrors = [
++      ...new Map(errors.map((error) => [error?.message, error])).values(),
++    ]
++
++    if (uniqueErrors?.length == 1) {
++      return uniqueErrors[0]?.message
++    }
++
++    return (
++      <ul className="ml-4 flex list-disc flex-col gap-1">
++        {uniqueErrors.map(
++          (error, index) =>
++            error?.message && <li key={index}>{error.message}</li>
++        )}
++      </ul>
++    )
++  }, [children, errors])
++
++  if (!content) {
++    return null
++  }
++
++  return (
++    <div
++      role="alert"
++      data-slot="field-error"
++      className={cn("text-sm font-normal text-destructive", className)}
++      {...props}
++    >
++      {content}
++    </div>
++  )
++}
++
++export {
++  Field,
++  FieldLabel,
++  FieldDescription,
++  FieldError,
++  FieldGroup,
++  FieldLegend,
++  FieldSeparator,
++  FieldSet,
++  FieldContent,
++  FieldTitle,
++}
+diff --git a/src/components/ui/input.tsx b/src/components/ui/input.tsx
+new file mode 100644
+index 0000000..7d21bab
+--- /dev/null
++++ b/src/components/ui/input.tsx
+@@ -0,0 +1,20 @@
++import * as React from "react"
++import { Input as InputPrimitive } from "@base-ui/react/input"
++
++import { cn } from "@/lib/utils"
++
++function Input({ className, type, ...props }: React.ComponentProps<"input">) {
++  return (
++    <InputPrimitive
++      type={type}
++      data-slot="input"
++      className={cn(
++        "h-8 w-full min-w-0 rounded-lg border border-input bg-transparent px-2.5 py-1 text-base transition-colors outline-none file:inline-flex file:h-6 file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 disabled:pointer-events-none disabled:cursor-not-allowed disabled:bg-input/50 disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-3 aria-invalid:ring-destructive/20 md:text-sm dark:bg-input/30 dark:disabled:bg-input/80 dark:aria-invalid:border-destructive/50 dark:aria-invalid:ring-destructive/40",
++        className
++      )}
++      {...props}
++    />
++  )
++}
++
++export { Input }
+diff --git a/src/components/ui/label.tsx b/src/components/ui/label.tsx
+new file mode 100644
+index 0000000..74da65c
+--- /dev/null
++++ b/src/components/ui/label.tsx
+@@ -0,0 +1,20 @@
++"use client"
++
++import * as React from "react"
++
++import { cn } from "@/lib/utils"
++
++function Label({ className, ...props }: React.ComponentProps<"label">) {
++  return (
++    <label
++      data-slot="label"
++      className={cn(
++        "flex items-center gap-2 text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50",
++        className
++      )}
++      {...props}
++    />
++  )
++}
++
++export { Label }
+diff --git a/src/components/ui/separator.tsx b/src/components/ui/separator.tsx
+new file mode 100644
+index 0000000..6e1369e
+--- /dev/null
++++ b/src/components/ui/separator.tsx
+@@ -0,0 +1,25 @@
++"use client"
++
++import { Separator as SeparatorPrimitive } from "@base-ui/react/separator"
++
++import { cn } from "@/lib/utils"
++
++function Separator({
++  className,
++  orientation = "horizontal",
++  ...props
++}: SeparatorPrimitive.Props) {
++  return (
++    <SeparatorPrimitive
++      data-slot="separator"
++      orientation={orientation}
++      className={cn(
++        "shrink-0 bg-border data-horizontal:h-px data-horizontal:w-full data-vertical:w-px data-vertical:self-stretch",
++        className
++      )}
++      {...props}
++    />
++  )
++}
++
++export { Separator }
+diff --git a/src/components/ui/textarea.tsx b/src/components/ui/textarea.tsx
+new file mode 100644
+index 0000000..04d27f7
+--- /dev/null
++++ b/src/components/ui/textarea.tsx
+@@ -0,0 +1,18 @@
++import * as React from "react"
++
++import { cn } from "@/lib/utils"
++
++function Textarea({ className, ...props }: React.ComponentProps<"textarea">) {
++  return (
++    <textarea
++      data-slot="textarea"
++      className={cn(
++        "flex field-sizing-content min-h-16 w-full rounded-lg border border-input bg-transparent px-2.5 py-2 text-base transition-colors outline-none placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 disabled:cursor-not-allowed disabled:bg-input/50 disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-3 aria-invalid:ring-destructive/20 md:text-sm dark:bg-input/30 dark:disabled:bg-input/80 dark:aria-invalid:border-destructive/50 dark:aria-invalid:ring-destructive/40",
++        className
++      )}
++      {...props}
++    />
++  )
++}
++
++export { Textarea }

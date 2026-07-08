@@ -1,12 +1,7 @@
 import Link from "next/link";
-import { Code2, Cloud, GitFork, type LucideIcon } from "lucide-react";
+import { Code2 } from "lucide-react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-
-const iconMap: Record<string, LucideIcon> = {
-  Code2,
-  Cloud,
-  GitFork,
-};
+import { SERVICE_ICON_MAP } from "@/lib/icon-map";
 
 interface ServiceCardProps {
   title: string;
@@ -16,7 +11,7 @@ interface ServiceCardProps {
 }
 
 export function ServiceCard({ title, description, icon, id }: ServiceCardProps) {
-  const Icon = iconMap[icon] || Code2;
+  const Icon = SERVICE_ICON_MAP[icon] || Code2;
 
   return (
     <Link href={`/services#${id}`}>

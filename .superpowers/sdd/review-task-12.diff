@@ -1,0 +1,193 @@
+# Review package: c519f46..HEAD
+
+## Commits
+f4083c6 feat: add contact page with Zod-validated form and mailto integration
+
+## Files changed
+ src/app/contact/page.tsx                 | 73 +++++++++++++++++++++++++++++
+ src/components/sections/contact-form.tsx | 80 ++++++++++++++++++++++++++++++++
+ src/lib/validations/contact.ts           | 10 ++++
+ 3 files changed, 163 insertions(+)
+
+## Diff
+diff --git a/src/app/contact/page.tsx b/src/app/contact/page.tsx
+new file mode 100644
+index 0000000..c3f49a4
+--- /dev/null
++++ b/src/app/contact/page.tsx
+@@ -0,0 +1,73 @@
++import type { Metadata } from "next";
++import { Mail, Phone, MapPin } from "lucide-react";
++import { COMPANY } from "@/lib/data/company";
++import { Container } from "@/components/layout/container";
++import { Section } from "@/components/layout/section";
++import { ContactForm } from "@/components/sections/contact-form";
++
++export const metadata: Metadata = {
++  title: "Contact | Tech Craftsmen",
++  description: "Get in touch with Tech Craftsmen. Let's discuss your project.",
++};
++
++export default function ContactPage() {
++  return (
++    <>
++      <Section>
++        <Container>
++          <div className="mx-auto max-w-3xl text-center">
++            <h1
++              className="text-4xl font-bold tracking-tight sm:text-5xl"
++              style={{ fontFamily: "var(--font-heading)" }}
++            >
++              Get in Touch
++            </h1>
++            <p className="mt-4 text-lg text-foreground-muted">
++              Have a project in mind? Let&apos;s talk about how we can help.
++            </p>
++          </div>
++        </Container>
++      </Section>
++
++      <Section className="bg-background-secondary">
++        <Container>
++          <div className="grid gap-12 lg:grid-cols-5">
++            <div className="lg:col-span-2">
++              <h2
++                className="text-2xl font-bold"
++                style={{ fontFamily: "var(--font-heading)" }}
++              >
++                Contact Info
++              </h2>
++              <p className="mt-4 text-sm leading-relaxed text-foreground-muted">
++                Reach out and we&apos;ll get back to you within one business day.
++              </p>
++              <div className="mt-8 space-y-4">
++                <div className="flex items-center gap-3 text-sm">
++                  <Mail className="h-5 w-5 text-accent" />
++                  <a
++                    href={`mailto:${COMPANY.email}`}
++                    className="transition-colors hover:text-accent"
++                  >
++                    {COMPANY.email}
++                  </a>
++                </div>
++                <div className="flex items-center gap-3 text-sm">
++                  <Phone className="h-5 w-5 text-accent" />
++                  <span>{COMPANY.phone}</span>
++                </div>
++                <div className="flex items-center gap-3 text-sm">
++                  <MapPin className="h-5 w-5 text-accent" />
++                  <span>{COMPANY.address}</span>
++                </div>
++              </div>
++            </div>
++            <div className="lg:col-span-3">
++              <ContactForm />
++            </div>
++          </div>
++        </Container>
++      </Section>
++    </>
++  );
++}
+diff --git a/src/components/sections/contact-form.tsx b/src/components/sections/contact-form.tsx
+new file mode 100644
+index 0000000..5d68c00
+--- /dev/null
++++ b/src/components/sections/contact-form.tsx
+@@ -0,0 +1,80 @@
++"use client";
++
++import { useForm } from "react-hook-form";
++import { zodResolver } from "@hookform/resolvers/zod";
++import { Input } from "@/components/ui/input";
++import { Textarea } from "@/components/ui/textarea";
++import { Button } from "@/components/ui/button";
++import { Field, FieldLabel, FieldError } from "@/components/ui/field";
++import { Send } from "lucide-react";
++import { contactSchema, type ContactFormValues } from "@/lib/validations/contact";
++import { COMPANY } from "@/lib/data/company";
++
++export function ContactForm() {
++  const {
++    register,
++    handleSubmit,
++    formState: { errors },
++  } = useForm<ContactFormValues>({
++    resolver: zodResolver(contactSchema),
++    defaultValues: {
++      name: "",
++      email: "",
++      company: "",
++      message: "",
++    },
++  });
++
++  function onSubmit(data: ContactFormValues) {
++    const subject = `Contact from ${data.name}`;
++    const body = [
++      data.message,
++      "",
++      `— ${data.name}`,
++      data.email,
++      data.company ? `Company: ${data.company}` : "",
++    ]
++      .filter(Boolean)
++      .join("\n");
++
++    window.location.href = `mailto:${COMPANY.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
++  }
++
++  return (
++    <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
++      <div className="grid gap-6 sm:grid-cols-2">
++        <Field>
++          <FieldLabel htmlFor="name">Name</FieldLabel>
++          <Input id="name" placeholder="Your name" {...register("name")} />
++          <FieldError errors={[errors.name]} />
++        </Field>
++        <Field>
++          <FieldLabel htmlFor="email">Email</FieldLabel>
++          <Input id="email" type="email" placeholder="you@company.com" {...register("email")} />
++          <FieldError errors={[errors.email]} />
++        </Field>
++      </div>
++
++      <Field>
++        <FieldLabel htmlFor="company">Company (optional)</FieldLabel>
++        <Input id="company" placeholder="Your company" {...register("company")} />
++      </Field>
++
++      <Field>
++        <FieldLabel htmlFor="message">Message</FieldLabel>
++        <Textarea
++          id="message"
++          placeholder="Tell us about your project..."
++          className="min-h-[140px]"
++          {...register("message")}
++        />
++        <FieldError errors={[errors.message]} />
++      </Field>
++
++      <Button type="submit" size="lg" className="w-full sm:w-auto">
++        <Send className="mr-2 h-4 w-4" />
++        Send Message
++      </Button>
++    </form>
++  );
++}
+diff --git a/src/lib/validations/contact.ts b/src/lib/validations/contact.ts
+new file mode 100644
+index 0000000..1d1f21b
+--- /dev/null
++++ b/src/lib/validations/contact.ts
+@@ -0,0 +1,10 @@
++import { z } from "zod";
++
++export const contactSchema = z.object({
++  name: z.string().min(2, "Name must be at least 2 characters"),
++  email: z.string().email("Please enter a valid email address"),
++  company: z.string().optional(),
++  message: z.string().min(10, "Message must be at least 10 characters"),
++});
++
++export type ContactFormValues = z.infer<typeof contactSchema>;
