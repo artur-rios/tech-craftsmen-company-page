@@ -55,7 +55,16 @@ export function Footer() {
         <Separator />
 
         <div className="py-6 text-center text-sm text-foreground-muted">
-          &copy; {new Date().getFullYear()} {COMPANY.name}. All rights reserved.
+          &copy; {new Date().getFullYear()} {COMPANY.name}.{" "}
+          <a
+            href="https://github.com/artur-rios/tech-craftsmen-company-page/blob/main/LICENSE"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="transition-colors hover:text-accent"
+          >
+            Artur Rios Attribution License
+          </a>
+          .
         </div>
       </Container>
     </footer>
