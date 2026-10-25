@@ -1,0 +1,10 @@
+# What Jenkins checks for this repository, read by the pipeline of the yggdrasil installation that runs it (yggdrasil's
+# docs/catalog.md, "Repository pipeline file", has every field). It is data, never code. The site is the application
+# tech-craftsmen-company-page: release/* deploys homologation and the release pull request production (its Dockerfile
+# builds the image); Jenkins merges that pull request and tags v*.
+#
+# It names no check yet: the catalog lists none for the site. The file being here is what turns the pipeline on, so
+# every pull request into develop or main gets the branch policy (branch-policy, which Forgejo requires there).
+#
+# Check it where the catalog is, in the yggdrasil checkout:
+#   python3 scripts/pipeline_config.py describe tech-craftsmen-company-page <this repository's checkout>
