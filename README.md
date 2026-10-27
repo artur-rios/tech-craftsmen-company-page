@@ -7,6 +7,12 @@ First, run the development server:
 ```bash
 npm run dev
 # or
+
+> [!NOTE]
+> This is the real, open-source code of tech-craftsmen-company-page. Its home is Forgejo, at
+> https://git.techcraftsmen.net/artur-rios/tech-craftsmen-company-page; the copy on GitHub is a read-only mirror, for viewing only, and
+> its issues and pull requests are not followed. If you want to contribute, email me at
+> arturdev@duck.com.
 yarn dev
 # or
 pnpm dev
