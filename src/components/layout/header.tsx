@@ -12,6 +12,8 @@ import { Button } from "@/components/ui/button";
 
 export function Header() {
   const pathname = usePathname();
+  // trailingSlash: true makes usePathname() return /about/, the nav hrefs have none.
+  const currentPath = pathname === "/" ? "/" : pathname.replace(/\/+$/, "");
   const [mobileOpen, setMobileOpen] = useState(false);
 
   return (
@@ -29,7 +31,7 @@ export function Header() {
                 href={item.href}
                 className={cn(
                   "text-sm transition-colors hover:text-accent",
-                  pathname === item.href
+                  currentPath === item.href
                     ? "text-accent font-medium"
                     : "text-foreground-muted"
                 )}
@@ -62,7 +64,7 @@ export function Header() {
                   onClick={() => setMobileOpen(false)}
                   className={cn(
                     "text-sm transition-colors hover:text-accent",
-                    pathname === item.href
+                    currentPath === item.href
                       ? "text-accent font-medium"
                       : "text-foreground-muted"
                   )}
