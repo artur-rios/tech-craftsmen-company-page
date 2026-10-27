@@ -1,5 +1,11 @@
 # Tech Craftsmen company page
 
+> [!NOTE]
+> This is the real, open-source code of tech-craftsmen-company-page. Its home is Forgejo, at
+> https://git.techcraftsmen.net/artur-rios/tech-craftsmen-company-page; the copy on GitHub is a read-only mirror, for viewing only, and
+> its issues and pull requests are not followed. If you want to contribute, email me at
+> arturdev@duck.com.
+
 The page of [Tech Craftsmen](https://www.techcraftsmen.net): a [Next.js](https://nextjs.org) site exported as static
 files (`output: 'export'`).
 
