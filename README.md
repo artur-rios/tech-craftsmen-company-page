@@ -1,16 +1,7 @@
 # Tech Craftsmen company page
 
-> [!NOTE]
-> This is the real, open-source code of tech-craftsmen-company-page. Its home is Forgejo, at
-> https://git.techcraftsmen.net/artur-rios/tech-craftsmen-company-page; the copy on GitHub is a read-only mirror, for viewing only, and
-> its issues and pull requests are not followed. If you want to contribute, email me at
-> arturdev@duck.com.
-
 The page of [Tech Craftsmen](https://www.techcraftsmen.net): a [Next.js](https://nextjs.org) site exported as static
 files (`output: 'export'`).
-
-The repository lives at <https://git.techcraftsmen.net/artur-rios/tech-craftsmen-company-page>. GitHub is a read-only
-mirror of it: open issues and pull requests on the git server, not on GitHub.
 
 ```bash
 git clone https://git.techcraftsmen.net/artur-rios/tech-craftsmen-company-page.git
@@ -44,3 +35,8 @@ The site is served by [yggdrasil](https://git.techcraftsmen.net/artur-rios/yggdr
 (`techcraftsmen.net` redirects to it). A `release/*` branch deploys the homologation environment; the release pull
 request into `main` deploys production, and Jenkins merges it and tags `v*`. Feature branches are cut from and merged
 into `develop`.
+
+## Contributing
+
+The GitHub repository is a read-only mirror for the real, open-source code of tech-craftsmen-company-page. Its home is Forgejo, at
+https://git.techcraftsmen.net/artur-rios/tech-craftsmen-company-page. If you want to contribute, e-mail me at arturdev@duck.com.
