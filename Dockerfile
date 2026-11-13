@@ -16,7 +16,7 @@
 # next.config.ts (a page is about/index.html, which the server finds for /about/; without it the export has
 # about.html next to an about/ directory, and the server redirects /about to a directory with no index.html) and
 # a `build` script that runs `next build`. The output is out/.
-FROM node:24.22.2-alpine3.24@sha256:a34ab6d7f6f4813f4d0c5469d74685604b962fbdbf5793a7bc7b4998ecb867c8 AS build
+FROM node:26.13.1-alpine3.24@sha256:6bd9ab43c0ec0190ca7b2d193906cb8b7edf6e7f4afa43ddeccd6452710bffb5 AS build
 
 WORKDIR /app
 COPY package.json package-lock.json ./
