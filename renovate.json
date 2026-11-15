@@ -1,3 +1,7 @@
 {
-  "extends": ["local>artur-rios/yggdrasil//renovate/default"]
+  "extends": ["local>artur-rios/yggdrasil//renovate/default"],
+  "description": "Renovate updates package-lock.json with npm 11, the npm of the Node 24 image the Dockerfile builds with. Left to itself it takes the newest npm, and npm 12's default allow-remote=none refuses @tailwindcss/oxide-wasm32-wasi's tarball (EALLOWREMOTE), so every lockfile update failed. Raise this with the Dockerfile's Node.",
+  "constraints": {
+    "npm": "^11"
+  }
 }

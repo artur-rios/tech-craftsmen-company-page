@@ -1,10 +1,23 @@
 # What Jenkins checks for this repository, read by the pipeline of the yggdrasil installation that runs it (yggdrasil's
-# docs/catalog.md, "Repository pipeline file", has every field). It is data, never code. The site is the application
-# tech-craftsmen-company-page: release/* deploys homologation and the release pull request production (its Dockerfile
-# builds the image); Jenkins merges that pull request and tags v*.
+# docs/catalog.md, "Repository pipeline file", has every field). It is data, never code: images (pinned by version and
+# digest, which Renovate keeps up to date), commands, globs and the names of Jenkins credentials. The commands are the
+# scripts under ci/, which run from the repository's root, so you can run them on your machine too. The site is the
+# application tech-craftsmen-company-page: release/* deploys homologation and the release pull request production (its
+# Dockerfile builds the image); Jenkins merges that pull request and tags v*.
 #
-# It names no check yet: the catalog lists none for the site. The file being here is what turns the pipeline on, so
-# every pull request into develop or main gets the branch policy (branch-policy, which Forgejo requires there).
+# The catalog names two checks for the site, lint and build, which run on every pull request and push, besides the
+# branch policy (branch-policy, which Forgejo requires on pull requests into develop and main).
 #
 # Check it where the catalog is, in the yggdrasil checkout:
 #   python3 scripts/pipeline_config.py describe tech-craftsmen-company-page <this repository's checkout>
+
+checks:
+  lint:                                  # npm ci, then the package's lint script (ESLint, eslint.config.mjs)
+    # The Node of the Dockerfile's build stage.
+    image: node:26.13.1-alpine3.24@sha256:6bd9ab43c0ec0190ca7b2d193906cb8b7edf6e7f4afa43ddeccd6452710bffb5
+    run: sh ci/lint.sh
+
+  build:                                 # the Dockerfile builds, as a deploy builds it (build only: no push, no run)
+    image: docker:29.9.2-cli@sha256:5e6baf67325a79f64ed3bed6863954d5e05d0f3d4e57cbdb14809346814bbfdb
+    run: sh ci/build.sh
+    docker: true                         # docker build, on the CI engine
